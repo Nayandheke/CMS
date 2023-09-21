@@ -1,0 +1,14 @@
+.sortable{
+    cursor: pointer;
+}
+.sortable:hover{
+    filter: opacity(0.8);
+}
+.ql-editor {
+    height: 180px !important;
+}
+.img-sm
+{
+    width: auto;
+    height: 50px;
+}
