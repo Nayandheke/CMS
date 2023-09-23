@@ -16,6 +16,8 @@ import * as Orders from "./orders"
 
 import * as Products from "./products"
 
+import * as Reviews from "./reviews"
 
 
-export {List as Dashboard, Login, Profile, Staffs, Customers, Categories, Brands, Orders,Products}
+
+export {List as Dashboard, Login, Profile, Staffs, Customers, Categories, Brands, Orders,Products,Reviews}

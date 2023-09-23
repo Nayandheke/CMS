@@ -17,7 +17,7 @@ export const CmsNav = () => {
     return Object.keys(user).length ? <Navbar variant="dark" bg="dark" expand="lg">
     <Container>
 
-    <Link to="/" className="navbar-brand">Suman's in fashion
+    <Link to="/" className="navbar-brand">E-commerce 
     </Link>
 
     <Navbar.Toggle/>
@@ -48,6 +48,16 @@ export const CmsNav = () => {
         <Nav.Item>
             <NavLink to="/products" className="nav-link">
                 <i className="fa-solid fa-gift me-2"></i>Products
+            </NavLink>
+        </Nav.Item> 
+        <Nav.Item>
+            <NavLink to="/reviews" className="nav-link">
+                <i className="fa-solid fa-comments me-2"></i>Reviews
+            </NavLink>
+        </Nav.Item> 
+        <Nav.Item>
+            <NavLink to="/orders" className="nav-link">
+                <i className="fa-solid fa-dollar me-2"></i>Orders
             </NavLink>
         </Nav.Item> 
         

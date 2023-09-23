@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, Row , Form} from "react-bootstrap";
 import http from "../../http";
 import { DataTable, Loading } from "../../components";
 import { Link } from "react-router-dom";
@@ -13,8 +13,7 @@ export const List = () => {
 
     useEffect(() => {
         setLoading(true);
-        http
-            .get("cms/orders")
+        http.get("cms/orders")
             .then(({ data }) => setOrders(data))
             .catch((err) => { })
             .finally(() => setLoading(false));
@@ -47,32 +46,42 @@ export const List = () => {
         });
     }
 
+    const handleChange = (id , status) => {
+        setLoading(true)
+        http.patch(`cms/orders/${id}`,{status} )
+            .then(() => http.get("cms/orders"))
+            .then(({ data }) => setOrders(data))
+            .catch((err) => { })
+            .finally(() => setLoading(false));
+    }
+
     return (
         <Col xs={12} className="bg-white my-3 py-3 rounded-3 shadow-sm">
             <Row>
                 <Col>
                     <h1>Orders</h1>
                 </Col>
-                <Col xs="auto">
-                    <Link className="btn btn-dark" to="/orders/create">
-                        <i className="fa-solid fa-plus me-2"></i>Add Orders
-                    </Link>
-                </Col>
+              
             </Row>
-            {loading ? <Loading /> : <DataTable sortable={['Status','Created At','Updated At']} searchable={['Status','Created At','Updated At']} data={orders.map(staff => {
+            {loading ? <Loading /> : <DataTable  data={orders.map(order => {
                 return {
                     
-                    'Status' : staff.status ? 'Active' : 'Inactive',
-                    'Created At': moment(staff.createdAt).format('lll'),
-                    'Updated At': moment(staff.updatedAt).format('lll'),
-                    'Action' : <>
-                        <Link to={`/orders/edit/${staff._id}`} className="btn btn-outline-dark btn-sm me-2">
-                            <i className="fa-solid fa-edit me-2"></i>Edit 
-                        </Link>
-                        <Button variant="outline-danger" size="sm" onClick={() => handleDelete(staff._id)}>
-                            <i className="fa-solid fa-trash"> </i> Delete
-                        </Button>
-                    </>
+                    'Details' : <ul>{order.details.map((detail , i) => <li key={i}>
+                    {`${detail.qty} x ${detail.product.name} @ Rs. ${detail.price} =Rs. ${detail.total}`}
+                </li>)}</ul>,
+                'User' : order.user.name,
+                'Status' : <Form.Select defaultValue={order.status} onChange={ev => handleChange(order._id, ev.target.value)}>
+                    <option value="Processing">Processing</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Shipping">Shipping</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                </Form.Select>,
+                'Created At': moment(order.createdAt).format('llll'),
+                'Updated At': moment(order.updateAt).format('llll'),
+                    'Action' :  <Button variant="outline-danger" size="sm" onClick={() => handleDelete(order._id)}>
+                    <i className="fa-solid fa-trash"> </i> Delete
+                </Button>
                 }
             })} />} 
         </Col>

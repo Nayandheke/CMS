@@ -46,7 +46,9 @@ export const CmsRoutes = () => {
                     <Route path="edit/:id" element={<Pages.Products.Edit />} />
                 </Route>
 
+                <Route path="reviews" element={<PrivateRoutes  element={<Pages.Reviews.List/>} />}/>
 
+                <Route path="orders" element={<PrivateRoutes  element={<Pages.Orders.List/>} />}/>
                 
 
                 
